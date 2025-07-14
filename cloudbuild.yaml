@@ -1,0 +1,33 @@
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', '$_IMAGE_NAME',
+      '.'
+    ]
+
+  # Push the image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      '$_IMAGE_NAME'
+    ]
+
+# Substitutions for the build
+substitutions:
+  _IMAGE_NAME: 'us-west1-docker.pkg.dev/digital-ucdavis-edu/pub/ucdlib-domain-redirect-service'
+
+# Build options
+options:
+  # Enable Docker layer caching for faster subsequent builds
+  logging: CLOUD_LOGGING_ONLY
+
+# Build timeout (default is 10 minutes, but we'll set it explicitly)
+timeout: '600s'
+
+# Tags for organizing builds
+tags:
+  - 'ucdlib-domain-redirect-service'
+  - 'domain-redirect'
+  - 'library'
