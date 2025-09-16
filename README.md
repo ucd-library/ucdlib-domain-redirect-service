@@ -2,17 +2,10 @@
 
 A simple Express.js web application that handles domain redirections for retired domains. The service reads from a configuration file to map old domains to new URLs and performs 301 (permanent) redirects.
 
-## Features
+## Adding a Redirect
 
-- **Simple Configuration**: Uses a JSON file to map domains to redirect URLs
-- **Health Checks**: Built-in health check endpoint for monitoring
-- **Docker Support**: Ready for containerization and cloud deployment
-- **Google Cloud Run Ready**: Optimized for Google Cloud Run deployment
-- **Logging**: Request logging for monitoring and debugging
-
-## Configuration
-
-Edit the `redirects.json` file to configure your domain mappings:
+## Configure App and Redeploy
+Add your redirect to the `redirects.json` file:
 
 ```json
 {
@@ -20,6 +13,22 @@ Edit the `redirects.json` file to configure your domain mappings:
   "legacy-site.example.com": "https://main-site.example.com/legacy"
 }
 ```
+
+Next, redeploy the container:  `./deploy.sh`
+
+## Map the domain in Cloud Run and Update DNS
+1. In Google Cloud Console, go to the `Networking` tab in the service details
+2. Click `Manage` next to `Custom Domains` in the `Endpoints` panel
+3. Select the `ucdlib-domain-redirect-service` service, and either verify a new domain or selected a verified domain. If you are verifying a new domain, follow the onscreen instructions and send the verification code to James to add to the DNS record.
+4. Send James the DNS record
+
+## Features
+
+- **Simple Configuration**: Uses a JSON file to map domains to redirect URLs
+- **Health Checks**: Built-in health check endpoint for monitoring
+- **Docker Support**: Ready for containerization and cloud deployment
+- **Google Cloud Run Ready**: Optimized for Google Cloud Run deployment
+- **Logging**: Request logging for monitoring and debugging
 
 ## Local Development
 
